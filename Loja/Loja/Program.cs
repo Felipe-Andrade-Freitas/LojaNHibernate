@@ -15,7 +15,7 @@ namespace Loja
     {
         static void Main(string[] args)
         {
-            NHibernateHelper.GeraSchema();
+            //NHibernateHelper.GeraSchema();
 
             //ISession session = NHibernateHelper.AbreSession();
 
@@ -28,25 +28,44 @@ namespace Loja
 
             Console.WriteLine("==============================================================");
 
+            //ISession session = NHibernateHelper.AbreSession();
+
+            //CategoriaDAO categoriaDao = new CategoriaDAO(session);
+            //Categoria umaCategoria = new Categoria();
+            //ProdutoDAO produtoDAO = new ProdutoDAO(session);
+            //Produto produto = new Produto();
+
+            //umaCategoria.Nome = "Vestuario".ToUpper();
+            //categoriaDao.SalvaCategoria(umaCategoria);
+
+            //produto.Nome = "camisa".ToUpper();
+            //produto.Preco = 10;
+            //produto.Categoria = umaCategoria;
+
+            //produtoDAO.SalvaProduto(produto);
+            ////ITransaction transacao = session.BeginTransaction();
+            ////session.Save(produto);
+            ////transacao.Commit();
+            //session.Close();
+
+            Console.WriteLine("==============================================================");
+
             ISession session = NHibernateHelper.AbreSession();
+            ITransaction transacao = session.BeginTransaction();
 
-            CategoriaDAO categoriaDao = new CategoriaDAO(session);
-            Categoria umaCategoria = new Categoria();
-            ProdutoDAO produtoDAO = new ProdutoDAO(session);
-            Produto produto = new Produto();
+            Categoria categoria = session.Load<Categoria>(1);
+            IList<Produto> produtos = categoria.Produtos;
 
-            umaCategoria.Nome = "Vestuario".ToUpper();
-            categoriaDao.SalvaCategoria(umaCategoria);
+            foreach (var i in produtos)
+            {
+                Console.WriteLine("\n");
+                Console.WriteLine("A quantidade de produtos é : {0} ",categoria.Produtos.Count);
+            }           
 
-            produto.Nome = "camisa".ToUpper();
-            produto.Preco = 10;
-            produto.Categoria = umaCategoria;
-
-            produtoDAO.SalvaProduto(produto);
-            //ITransaction transacao = session.BeginTransaction();
-            //session.Save(produto);
-            //transacao.Commit();
+            transacao.Commit();
             session.Close();
+
+            Console.WriteLine("==============================================================");
 
             Console.Read();
         }
