@@ -17,8 +17,6 @@ namespace Loja
         {
             NHibernateHelper.GeraSchema();
 
-
-
             //ISession session = NHibernateHelper.AbreSession();
 
             //UsuarioDAO usuarioDAO = new UsuarioDAO(session);
@@ -30,24 +28,24 @@ namespace Loja
 
             Console.WriteLine("==============================================================");
 
+            ISession session = NHibernateHelper.AbreSession();
 
-
+            CategoriaDAO categoriaDao = new CategoriaDAO(session);
             Categoria umaCategoria = new Categoria();
-            umaCategoria.Nome = "Vestuario".ToUpper();
-
+            ProdutoDAO produtoDAO = new ProdutoDAO(session);
             Produto produto = new Produto();
-            produto.Nome = "calça".ToUpper();
+
+            umaCategoria.Nome = "Vestuario".ToUpper();
+            categoriaDao.SalvaCategoria(umaCategoria);
+
+            produto.Nome = "camisa".ToUpper();
             produto.Preco = 10;
-            //produto.Categoria = umaCategoria;
             produto.Categoria = umaCategoria;
 
-            ISession session = NHibernateHelper.AbreSession();
-            ITransaction transacao = session.BeginTransaction();
-
-            session.Save(umaCategoria);
-            session.Save(produto);
-
-            transacao.Commit();
+            produtoDAO.SalvaProduto(produto);
+            //ITransaction transacao = session.BeginTransaction();
+            //session.Save(produto);
+            //transacao.Commit();
             session.Close();
 
             Console.Read();
