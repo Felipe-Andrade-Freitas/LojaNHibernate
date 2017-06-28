@@ -9,7 +9,7 @@
     </id>
     <property name="Nome"/>
     
-    <bag name="Produtos" fetch="join">
+    <bag name="Produtos" fetch="join" batch-size="10">
       <key column="CategoriaId"/>
       <one-to-many class="Produto"/>
     </bag>
