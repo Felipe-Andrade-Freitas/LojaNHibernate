@@ -81,7 +81,7 @@ namespace Loja
             //}
 
             //Console.WriteLine("\n");
-            //Console.WriteLine("Com a condição Where \n");
+            Console.WriteLine("Com a condição Where \n");
 
             //string hql1 = "from Produto p where p.Preco > :valor order by p.Nome";
             //query = sessao.CreateQuery(hql1);
@@ -95,7 +95,7 @@ namespace Loja
             //}
 
             //Console.WriteLine("\n");
-            //Console.WriteLine("Com a condição Where e buscando a categoria \n");
+            Console.WriteLine("Com a condição Where e buscando a categoria \n");
 
             //string hql2 = "from Produto p where p.Preco > :valor1 and p.Categoria.Nome = :categoria order by p.Nome";
             //query = sessao.CreateQuery(hql2);            
@@ -113,7 +113,7 @@ namespace Loja
 
             //ISession sessao = NHibernateHelper.AbreSession();
 
-            //Console.WriteLine("buscar categoria e quantos produtos estão associados a categoria \n");
+            Console.WriteLine("buscar categoria e quantos produtos estão associados a categoria \n");
             //Console.WriteLine("\n");
 
             //string hql = "select c as Categoria, count(p) " +
@@ -151,29 +151,68 @@ namespace Loja
 
             Console.WriteLine("==============================================================");
 
+            //ISession session = NHibernateHelper.AbreSession();
+
+            //IQuery query = session.CreateQuery("from Produto p join fetch p.Categoria where p.Categoria = :valor");
+            //query.SetParameter("valor", 1);
+            //IList<Produto> produtos = query.List<Produto>();
+
+            //foreach (var produto in produtos)
+            //{
+            //    Console.WriteLine(produto.Nome + " - " + produto.Categoria.Nome);
+            //}
+
+            //Console.WriteLine("\n");
+            //Console.WriteLine("Categoria");
+
+            //query = session.CreateQuery("select distinct c from Categoria c join fetch c.Produtos");
+            //IList<Categoria> categorias = query.List<Categoria>();
+
+            //foreach (var categoria in categorias)
+            //{
+            //    Console.WriteLine(categoria.Nome + " - " + categoria.Produtos.Count);
+            //}
+
+            Console.WriteLine("==============================================================");
+
+            Console.WriteLine("Buscas dinâmicas com Criteria");
+            Console.WriteLine("\n");
+
+            //ISession session = NHibernateHelper.AbreSession();
+            //ProdutoDAO produtoDAO = new ProdutoDAO(session);
+
+            //IList<Produto> produtos = produtoDAO.BuscaPorNomePrecoMinimoECategoria("", 12, "");
+
+            //Console.WriteLine("\n");
+            //foreach (var produto in produtos)
+            //{
+            //    Console.WriteLine("Produto {0}       Preço {1}        Categoria {2} \n", produto.Nome, produto.Preco, produto.Categoria.Nome);
+            //}
+
+            //session.Close();
+
+            Console.WriteLine("==============================================================");
+            Console.WriteLine("Buscas caches");
+
             ISession session = NHibernateHelper.AbreSession();
+            ISession session2 = NHibernateHelper.AbreSession();
 
-            IQuery query = session.CreateQuery("from Produto p join fetch p.Categoria where p.Categoria = :valor");
-            query.SetParameter("valor", 1);
-            IList<Produto> produtos = query.List<Produto>();
+            Categoria c = session.Get<Categoria>(1);
+            Categoria c2 = session2.Get<Categoria>(1);
 
-            foreach (var produto in produtos)
-            {
-                Console.WriteLine(produto.Nome + " - " + produto.Categoria.Nome);
-            }
+            Console.WriteLine(c.Produtos.Count);
+            Console.WriteLine(c2.Produtos.Count);
 
             Console.WriteLine("\n");
-            Console.WriteLine("Categoria");
+            Console.WriteLine("Usuário \n");
 
-            query = session.CreateQuery("select distinct c from Categoria c join fetch c.Produtos");
-            IList<Categoria> categorias = query.List<Categoria>();
+            session.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
+            session2.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
 
-            foreach (var categoria in categorias)
-            {
-                Console.WriteLine(categoria.Nome + " - " + categoria.Produtos.Count);
-            }
-
+            session.Close();
+            session2.Close();
             Console.Read();
+            
         }
     }
 

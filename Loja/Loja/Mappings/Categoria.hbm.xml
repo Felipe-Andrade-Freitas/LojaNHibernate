@@ -4,12 +4,14 @@
                    namespace="Loja.Model">
 
   <class name="Categoria">
+    <cache usage="nonstrict-read-write"/>
     <id name="Id">
       <generator class="identity"/>
     </id>
     <property name="Nome"/>
     
     <bag name="Produtos" fetch="join" batch-size="10">
+      <cache usage="nonstrict-read-write"/>
       <key column="CategoriaId"/>
       <one-to-many class="Produto"/>
     </bag>

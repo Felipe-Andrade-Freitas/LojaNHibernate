@@ -4,6 +4,7 @@
                     namespace="Loja.Model">
                     
   <class name="Usuario">
+    <cache usage="nonstrict-read-write"/>
     <id name="Id">
       <generator class="identity"/>
     </id>

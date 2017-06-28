@@ -5,6 +5,7 @@
                    namespace="Loja.Model">
 
   <class name="Produto">
+    <cache usage="nonstrict-read-write"/>
     <id name="Id">
       <generator class="identity"/>
     </id>
