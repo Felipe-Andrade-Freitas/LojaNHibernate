@@ -194,25 +194,50 @@ namespace Loja
             Console.WriteLine("==============================================================");
             Console.WriteLine("Buscas caches");
 
+            //ISession session = NHibernateHelper.AbreSession();
+            //ISession session2 = NHibernateHelper.AbreSession();
+
+            //Categoria c = session.Get<Categoria>(1);
+            //Categoria c2 = session2.Get<Categoria>(1);
+
+            //Console.WriteLine(c.Produtos.Count);
+            //Console.WriteLine(c2.Produtos.Count);
+
+            //Console.WriteLine("\n");
+            //Console.WriteLine("Usuário \n");
+
+            //session.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
+            //session2.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
+
+            //session.Close();
+            //session2.Close();
+
+            Console.WriteLine("==============================================================");
+            Console.WriteLine("Buscas caches");
+
+            //NHibernateHelper.GeraSchema();
             ISession session = NHibernateHelper.AbreSession();
-            ISession session2 = NHibernateHelper.AbreSession();
+            ITransaction transacao = session.BeginTransaction();
 
-            Categoria c = session.Get<Categoria>(1);
-            Categoria c2 = session2.Get<Categoria>(1);
+            Venda venda = new Venda();
+            Usuario Cliente = session.Get<Usuario>(1);
 
-            Console.WriteLine(c.Produtos.Count);
-            Console.WriteLine(c2.Produtos.Count);
 
-            Console.WriteLine("\n");
-            Console.WriteLine("Usuário \n");
+            venda.Cliente = Cliente;
 
-            session.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
-            session2.CreateQuery("from Usuario").SetCacheable(true).List<Usuario>();
+            Produto p1 = session.Get<Produto>(1);
+            Produto p2 = session.Get<Produto>(1);
 
+
+            venda.Produtos.Add(p1);
+            venda.Produtos.Add(p2);
+
+            session.Save(venda);
+
+            transacao.Commit();
             session.Close();
-            session2.Close();
-            Console.Read();
-            
+
+            Console.Read();            
         }
     }
 
