@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Loja.Model
 {
-    public class Usuario
+    public abstract class Usuario
     {
         public virtual int Id { get; set; }
         public virtual string Nome { get; set; }

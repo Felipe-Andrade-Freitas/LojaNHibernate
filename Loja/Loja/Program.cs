@@ -216,27 +216,48 @@ namespace Loja
             Console.WriteLine("Buscas caches");
 
             //NHibernateHelper.GeraSchema();
+            //ISession session = NHibernateHelper.AbreSession();
+            //ITransaction transacao = session.BeginTransaction();
+
+            //Venda venda = new Venda();
+            //Usuario Cliente = session.Get<Usuario>(1);
+
+
+            //venda.Cliente = Cliente;
+
+            //Produto p1 = session.Get<Produto>(1);
+            //Produto p2 = session.Get<Produto>(1);
+
+
+            //venda.Produtos.Add(p1);
+            //venda.Produtos.Add(p2);
+
+            //session.Save(venda);
+
+            //transacao.Commit();
+            //session.Close();
+
+            Console.WriteLine("==============================================================");
+            Console.WriteLine("Criação tabela com herança");
+
+            //NHibernateHelper.GeraSchema();
+
+            PessoaFisica pf = new PessoaFisica();
+            PessoaJuridica pj = new PessoaJuridica();
+
+            pf.Nome = "João";
+            pf.CPF = "08965325698";
+
+            pj.Nome = "alura";
+            pj.CNPJ = "023658965/77";
+
             ISession session = NHibernateHelper.AbreSession();
-            ITransaction transacao = session.BeginTransaction();
+            UsuarioDAO usuarioDao = new UsuarioDAO(session);
 
-            Venda venda = new Venda();
-            Usuario Cliente = session.Get<Usuario>(1);
+            usuarioDao.Adiciona(pf);
+            usuarioDao.Adiciona(pj);
 
-
-            venda.Cliente = Cliente;
-
-            Produto p1 = session.Get<Produto>(1);
-            Produto p2 = session.Get<Produto>(1);
-
-
-            venda.Produtos.Add(p1);
-            venda.Produtos.Add(p2);
-
-            session.Save(venda);
-
-            transacao.Commit();
             session.Close();
-
             Console.Read();            
         }
     }
